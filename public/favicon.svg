@@ -1,0 +1,10 @@
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="42" stroke="#1B2A4A" stroke-width="4.5" fill="none"/>
+  <defs>
+    <linearGradient id="wcGrad" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#22D3EE"/>
+    </linearGradient>
+  </defs>
+  <path d="M 44 28 L 50 24 L 56 28 L 82 50 L 56 72 L 50 76 L 44 72 L 18 50 Z M 38 38 L 50 32 L 62 38 L 70 50 L 62 62 L 50 68 L 38 62 L 30 50 Z" fill="url(#wcGrad)" fill-rule="evenodd"/>
+</svg>

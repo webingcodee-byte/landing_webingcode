@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-navy: var(--color-navy-val);
+  --color-navy-dark: var(--color-navy-dark-val);
+  --color-blue: var(--color-blue-val);
+  --color-cyan: var(--color-cyan-val);
+  --color-light-cyan: var(--color-light-cyan-val);
+  --color-bg-light: var(--color-bg-light-val);
+  --color-bg-section: var(--color-bg-section-val);
+  --color-gray-text: var(--color-gray-text-val);
+  --color-card: var(--color-card-val);
+
+  --font-family-sans: 'Inter', system-ui, sans-serif;
+  --font-family-heading: 'Outfit', system-ui, sans-serif;
+}
+
+:root {
+  --color-navy-val: #1B2A4A;
+  --color-navy-dark-val: #0F1B33;
+  --color-blue-val: #2D5BBA;
+  --color-cyan-val: #29B6B0;
+  --color-light-cyan-val: #5ED4CE;
+  --color-bg-light-val: #F8FAFB;
+  --color-bg-section-val: #F0F4F8;
+  --color-gray-text-val: #6B7280;
+  --color-card-val: #FFFFFF;
+}
+
+:root.dark {
+  --color-navy-val: #F8FAFB;
+  --color-navy-dark-val: #E5E7EB;
+  --color-blue-val: #5ED4CE;
+  --color-cyan-val: #29B6B0;
+  --color-light-cyan-val: #2D5BBA;
+  --color-bg-light-val: #0B1120;
+  --color-bg-section-val: #111827;
+  --color-gray-text-val: #9CA3AF;
+  --color-card-val: #1F2937;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family-sans);
+  color: var(--color-navy);
+  background-color: var(--color-bg-light);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-family-heading);
+}
