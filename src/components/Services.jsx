@@ -22,7 +22,7 @@ const services = [
   },
   {
     icon: (
-      <svg className="w-8 h-8 text-[#1B2A4A]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+      <svg className="w-8 h-8 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
     ),
     title: "Software a Medida",
     description: "Soluciones personalizadas y creadas desde cero para satisfacer las necesidades únicas de tu negocio."
@@ -45,7 +45,7 @@ const Services = () => {
           {services.map((service, index) => (
             <div 
               key={index} 
-              className="bg-card rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group hover:-translate-y-2 relative overflow-hidden"
+              className="bg-card rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-white/5 group hover:-translate-y-2 relative overflow-hidden"
             >
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue to-cyan transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
               

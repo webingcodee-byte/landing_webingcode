@@ -1,4 +1,5 @@
 import logo from '../assets/logo.png';
+import SocialLinks from './SocialLinks';
 
 const Footer = () => {
   return (
@@ -11,7 +12,7 @@ const Footer = () => {
             {/* LOGO */}
             <a
               href="#hero"
-              className="flex items-center gap-x-1 group text-navy"
+              className="flex items-center gap-x-1 group text-white"
             >
               <img
                 src={logo}
@@ -27,6 +28,8 @@ const Footer = () => {
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
               Transformamos ideas en soluciones digitales. Agencia de desarrollo de software, páginas web y sistemas a medida.
             </p>
+
+            <SocialLinks className="flex gap-3" />
           </div>
 
           {/* Links Col */}

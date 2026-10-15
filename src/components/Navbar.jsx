@@ -43,7 +43,7 @@ const Navbar = () => {
   return (
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled
-        ? 'bg-white/90 backdrop-blur-md shadow-sm py-3'
+        ? 'bg-white/90 dark:bg-[#0B1120]/90 backdrop-blur-md shadow-sm dark:shadow-[0_4px_25px_-4px_rgba(0,0,0,0.5)] border-b border-gray-200/60 dark:border-white/10 py-3'
         : 'bg-transparent py-5'
         }`}
     >
@@ -66,32 +66,32 @@ const Navbar = () => {
         </a>
 
         {/* MENÚ DE ESCRITORIO */}
-        <div className="hidden md:flex items-center gap-8 font-medium text-gray-600">
+        <div className="hidden md:flex items-center gap-8 font-medium text-gray-600 dark:text-gray-200">
 
           <a
             href="#hero"
-            className="hover:text-blue transition-colors"
+            className="hover:text-blue dark:hover:text-cyan transition-colors"
           >
             Inicio
           </a>
 
           <a
             href="#servicios"
-            className="hover:text-blue transition-colors"
+            className="hover:text-blue dark:hover:text-cyan transition-colors"
           >
             Servicios
           </a>
 
           <a
             href="#proyectos"
-            className="hover:text-blue transition-colors"
+            className="hover:text-blue dark:hover:text-cyan transition-colors"
           >
             Proyectos
           </a>
 
           <a
             href="#clientes"
-            className="hover:text-blue transition-colors"
+            className="hover:text-blue dark:hover:text-cyan transition-colors"
           >
             Clientes
           </a>
@@ -99,7 +99,7 @@ const Navbar = () => {
           {/* BOTÓN MODO OSCURO */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-navy"
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors text-navy"
             aria-label="Toggle dark mode"
           >
             {isDarkMode ? (
@@ -144,7 +144,7 @@ const Navbar = () => {
 
         {/* BOTÓN MENÚ MÓVIL */}
         <button
-          className="md:hidden text-navy"
+          className="md:hidden text-navy p-1.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Abrir menú"
         >
@@ -170,12 +170,12 @@ const Navbar = () => {
 
       {/* MENÚ MÓVIL */}
       {isMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-card shadow-lg border-t border-gray-100 py-4 px-6 flex flex-col gap-4">
+        <div className="md:hidden absolute top-full left-0 w-full bg-card/95 backdrop-blur-md shadow-xl border-t border-gray-100 dark:border-white/10 py-5 px-6 flex flex-col gap-4">
 
           <a
             href="#hero"
             onClick={() => setIsMenuOpen(false)}
-            className="text-gray-600 hover:text-blue"
+            className="text-gray-700 dark:text-gray-200 hover:text-blue dark:hover:text-cyan font-medium transition-colors"
           >
             Inicio
           </a>
@@ -183,7 +183,7 @@ const Navbar = () => {
           <a
             href="#servicios"
             onClick={() => setIsMenuOpen(false)}
-            className="text-gray-600 hover:text-blue"
+            className="text-gray-700 dark:text-gray-200 hover:text-blue dark:hover:text-cyan font-medium transition-colors"
           >
             Servicios
           </a>
@@ -191,7 +191,7 @@ const Navbar = () => {
           <a
             href="#proyectos"
             onClick={() => setIsMenuOpen(false)}
-            className="text-gray-600 hover:text-blue"
+            className="text-gray-700 dark:text-gray-200 hover:text-blue dark:hover:text-cyan font-medium transition-colors"
           >
             Proyectos
           </a>
@@ -199,7 +199,7 @@ const Navbar = () => {
           <a
             href="#clientes"
             onClick={() => setIsMenuOpen(false)}
-            className="text-gray-600 hover:text-blue"
+            className="text-gray-700 dark:text-gray-200 hover:text-blue dark:hover:text-cyan font-medium transition-colors"
           >
             Clientes
           </a>
@@ -207,7 +207,7 @@ const Navbar = () => {
           <a
             href="#contacto"
             onClick={() => setIsMenuOpen(false)}
-            className="bg-gradient-to-r from-blue to-cyan text-white px-6 py-2 rounded-full text-center"
+            className="bg-gradient-to-r from-blue to-cyan text-white px-6 py-2.5 rounded-full text-center font-medium shadow-md shadow-cyan/20"
           >
             Cotizar proyecto
           </a>

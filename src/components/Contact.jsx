@@ -51,7 +51,7 @@ const Contact = () => {
               ¿Tienes una idea en mente? Nuestro equipo de expertos está listo para ayudarte a convertirla en realidad. Contáctanos y descubre lo que podemos construir juntos.
             </p>
 
-            <div className="space-y-6 mb-12">
+            <div className="space-y-6">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center shrink-0 border border-white/10 text-cyan">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
@@ -68,7 +68,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold text-white mb-1">Teléfono</h4>
-                  <a href="tel:+1234567890" className="text-gray-400 hover:text-cyan transition-colors">+51 923 991 050</a>
+                  <a href="tel:+51923991050" className="text-gray-400 hover:text-cyan transition-colors">+51 923 991 050</a>
                 </div>
               </div>
 
@@ -81,16 +81,6 @@ const Contact = () => {
                   <p className="text-gray-400">Ciudad de Lima, Perú</p>
                 </div>
               </div>
-            </div>
-
-            {/* Socials placeholder */}
-            <div className="flex gap-4">
-              {['Facebook', 'Twitter', 'LinkedIn', 'Instagram'].map((social) => (
-                <a key={social} href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-blue hover:text-white transition-all">
-                  <span className="sr-only">{social}</span>
-                  <div className="w-4 h-4 bg-current" style={{ maskImage: 'url(https://unpkg.com/lucide-static@0.321.0/icons/link.svg)', maskSize: 'contain' }}></div>
-                </a>
-              ))}
             </div>
           </div>
 

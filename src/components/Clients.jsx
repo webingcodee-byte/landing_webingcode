@@ -1,27 +1,27 @@
+import client1 from '../assets/clients/client1.jpg';
+// Para agregar más fotos de clientes en el futuro puedes importarlas aquí:
+// import client2 from '../assets/clients/client2.jpg';
+
+// EDITA AQUÍ LA EMPRESA QUE CONFÍA EN TI:
+// Puedes cambiar el nombre o añadir más empresas a esta lista cuando lo requieras.
+const trustedCompanies = [
+  {
+    id: 1,
+    name: "Empresa Aliada", // Nombre de la empresa cliente
+  }
+];
+
+// EDITA AQUÍ EL TESTIMONIO DE TU CLIENTE:
+// Modifica los datos con la información y opinión real de tu cliente.
+// Para añadir más testimonios en el futuro, solo agrega otro objeto a este arreglo.
 const testimonials = [
   {
     id: 1,
-    name: "Carlos Méndez",
-    role: "CEO",
-    company: "ModaPlus",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop",
-    quote: "WebingCode transformó completamente nuestra presencia digital. El nuevo e-commerce aumentó nuestras ventas en un 45% en los primeros tres meses. Profesionales y altamente recomendables."
-  },
-  {
-    id: 2,
-    name: "Laura Jiménez",
-    role: "Directora de Operaciones",
-    company: "TechSolve",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&auto=format&fit=crop",
-    quote: "El sistema de gestión que desarrollaron a medida ha optimizado nuestros procesos internos de una forma increíble. Entendieron exactamente lo que necesitábamos desde el día uno."
-  },
-  {
-    id: 3,
-    name: "Roberto Silva",
-    role: "Fundador",
-    company: "RápidoYa Delivery",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop",
-    quote: "Buscábamos un equipo capaz de desarrollar una app móvil robusta y escalable. WebingCode no solo cumplió, sino que superó nuestras expectativas con un producto de nivel internacional."
+    name: "Carlos Méndez", // Nombre del cliente
+    role: "CEO", // Cargo o posición
+    company: "ModaPlus", // Empresa del cliente
+    image: client1, // Foto de tu cliente en '../assets/clients/'
+    quote: "WebingCode transformó completamente nuestra presencia digital. El nuevo e-commerce aumentó nuestras ventas en un 45% en los primeros tres meses. Profesionales y altamente recomendables." // Testimonio / reseña
   }
 ];
 
@@ -33,14 +33,13 @@ const Clients = () => {
         {/* Logos Section */}
         <div className="mb-24">
           <p className="text-center text-gray-text font-medium mb-10">Empresas que confían en nuestro trabajo</p>
-          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 opacity-70">
-            {/* Generic Logo SVGs for placeholder */}
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="flex items-center gap-2 grayscale hover:grayscale-0 transition-all duration-300 cursor-pointer">
-                <svg className="w-8 h-8 text-navy" viewBox="0 0 24 24" fill="currentColor">
+          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20">
+            {trustedCompanies.map((company) => (
+              <div key={company.id} className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-card shadow-xs border border-gray-100 dark:border-white/5 hover:border-cyan/30 transition-all duration-300 cursor-pointer">
+                <svg className="w-8 h-8 text-cyan" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                 </svg>
-                <span className="text-xl font-bold font-heading text-navy">Brand{i}</span>
+                <span className="text-xl font-bold font-heading text-navy">{company.name}</span>
               </div>
             ))}
           </div>
@@ -53,7 +52,7 @@ const Clients = () => {
             <h3 className="text-3xl md:text-4xl font-bold text-navy mb-4">Lo que dicen nuestros clientes</h3>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className={`grid gap-8 ${testimonials.length === 1 ? 'max-w-2xl mx-auto' : 'md:grid-cols-3'}`}>
             {testimonials.map((testimonial) => (
               <div key={testimonial.id} className="bg-card rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow relative">
                 {/* Quote icon */}
