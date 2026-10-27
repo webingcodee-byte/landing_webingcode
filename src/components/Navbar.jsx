@@ -1,22 +1,27 @@
-
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import logo from '../assets/logo.png';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') return true;
+      if (savedTheme === 'light') return false;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    return false;
+  });
 
   useEffect(() => {
-    if (
-      localStorage.getItem('theme') === 'dark' ||
-      (!('theme' in localStorage) &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches)
-    ) {
-      setIsDarkMode(true);
+    if (isDarkMode) {
       document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
-  }, []);
+  }, [isDarkMode]);
 
   const toggleTheme = () => {
     if (isDarkMode) {
@@ -41,7 +46,10 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav
+    <motion.nav
+      initial={{ y: -40, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled
         ? 'bg-white/90 dark:bg-[#0B1120]/90 backdrop-blur-md shadow-sm dark:shadow-[0_4px_25px_-4px_rgba(0,0,0,0.5)] border-b border-gray-200/60 dark:border-white/10 py-3'
         : 'bg-transparent py-5'
@@ -52,15 +60,15 @@ const Navbar = () => {
         {/* LOGO */}
         <a
           href="#hero"
-          className="flex items-center gap-x-1 group text-navy"
+          className="flex items-center gap-3 group text-navy"
         >
           <img
             src={logo}
-            alt="WebingCode"
-            className="w-20 h-20 pl-1 object-contain transition-transform group-hover:scale-105"
+            alt="WebingCode Logo"
+            className="w-11 h-11 object-contain shrink-0 transition-transform duration-300 group-hover:scale-105"
           />
 
-          <span className="text-2xl font-bold">
+          <span className="text-2xl font-bold tracking-tight">
             Webing<span className="text-cyan">Code</span>
           </span>
         </a>
@@ -99,7 +107,7 @@ const Navbar = () => {
           {/* BOTÓN MODO OSCURO */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors text-navy"
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors text-navy cursor-pointer"
             aria-label="Toggle dark mode"
           >
             {isDarkMode ? (
@@ -144,7 +152,7 @@ const Navbar = () => {
 
         {/* BOTÓN MENÚ MÓVIL */}
         <button
-          className="md:hidden text-navy p-1.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+          className="md:hidden text-navy p-1.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Abrir menú"
         >
@@ -169,52 +177,58 @@ const Navbar = () => {
       </div>
 
       {/* MENÚ MÓVIL */}
-      {isMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-card/95 backdrop-blur-md shadow-xl border-t border-gray-100 dark:border-white/10 py-5 px-6 flex flex-col gap-4">
-
-          <a
-            href="#hero"
-            onClick={() => setIsMenuOpen(false)}
-            className="text-gray-700 dark:text-gray-200 hover:text-blue dark:hover:text-cyan font-medium transition-colors"
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10, filter: 'blur(5px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -10, filter: 'blur(5px)' }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="md:hidden absolute top-full left-0 w-full bg-card/95 backdrop-blur-md shadow-xl border-t border-gray-100 dark:border-white/10 py-5 px-6 flex flex-col gap-4"
           >
-            Inicio
-          </a>
+            <a
+              href="#hero"
+              onClick={() => setIsMenuOpen(false)}
+              className="text-gray-700 dark:text-gray-200 hover:text-blue dark:hover:text-cyan font-medium transition-colors"
+            >
+              Inicio
+            </a>
 
-          <a
-            href="#servicios"
-            onClick={() => setIsMenuOpen(false)}
-            className="text-gray-700 dark:text-gray-200 hover:text-blue dark:hover:text-cyan font-medium transition-colors"
-          >
-            Servicios
-          </a>
+            <a
+              href="#servicios"
+              onClick={() => setIsMenuOpen(false)}
+              className="text-gray-700 dark:text-gray-200 hover:text-blue dark:hover:text-cyan font-medium transition-colors"
+            >
+              Servicios
+            </a>
 
-          <a
-            href="#proyectos"
-            onClick={() => setIsMenuOpen(false)}
-            className="text-gray-700 dark:text-gray-200 hover:text-blue dark:hover:text-cyan font-medium transition-colors"
-          >
-            Proyectos
-          </a>
+            <a
+              href="#proyectos"
+              onClick={() => setIsMenuOpen(false)}
+              className="text-gray-700 dark:text-gray-200 hover:text-blue dark:hover:text-cyan font-medium transition-colors"
+            >
+              Proyectos
+            </a>
 
-          <a
-            href="#clientes"
-            onClick={() => setIsMenuOpen(false)}
-            className="text-gray-700 dark:text-gray-200 hover:text-blue dark:hover:text-cyan font-medium transition-colors"
-          >
-            Clientes
-          </a>
+            <a
+              href="#clientes"
+              onClick={() => setIsMenuOpen(false)}
+              className="text-gray-700 dark:text-gray-200 hover:text-blue dark:hover:text-cyan font-medium transition-colors"
+            >
+              Clientes
+            </a>
 
-          <a
-            href="#contacto"
-            onClick={() => setIsMenuOpen(false)}
-            className="bg-gradient-to-r from-blue to-cyan text-white px-6 py-2.5 rounded-full text-center font-medium shadow-md shadow-cyan/20"
-          >
-            Cotizar proyecto
-          </a>
-
-        </div>
-      )}
-    </nav>
+            <a
+              href="#contacto"
+              onClick={() => setIsMenuOpen(false)}
+              className="bg-gradient-to-r from-blue to-cyan text-white px-6 py-2.5 rounded-full text-center font-medium shadow-md shadow-cyan/20"
+            >
+              Cotizar proyecto
+            </a>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.nav>
   );
 };
 
