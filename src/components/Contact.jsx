@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 
 const easeOutExpo = [0.16, 1, 0.3, 1];
 
@@ -55,26 +56,73 @@ const Contact = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrorMessage('');
 
-    // Simulate API call
-    setTimeout(() => {
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    // Validación preventiva por si no se han cargado las variables en .env
+    if (!serviceId || !templateId || !publicKey) {
+      setErrorMessage(
+        'Faltan configurar las credenciales en el archivo .env (VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, VITE_EMAILJS_PUBLIC_KEY).'
+      );
       setIsSubmitting(false);
+      return;
+    }
+
+    // Parámetros preparados tanto con nombres en español como en inglés para adaptarse a tu plantilla de EmailJS
+    const templateParams = {
+      nombre: formData.nombre,
+      email: formData.email,
+      telefono: formData.telefono,
+      empresa: formData.empresa || 'No especificada',
+      servicio: formData.servicio || 'No especificado',
+      mensaje: formData.mensaje,
+      // Alias comunes en plantillas EmailJS:
+      from_name: formData.nombre,
+      user_name: formData.nombre,
+      user_email: formData.email,
+      user_phone: formData.telefono,
+      user_company: formData.empresa || 'No especificada',
+      user_service: formData.servicio || 'No especificado',
+      reply_to: formData.email,
+      message: formData.mensaje
+    };
+
+    try {
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
       setIsSuccess(true);
-      setFormData({ nombre: '', email: '', telefono: '', empresa: '', servicio: '', mensaje: '' });
+      setFormData({
+        nombre: '',
+        email: '',
+        telefono: '',
+        empresa: '',
+        servicio: '',
+        mensaje: ''
+      });
 
       setTimeout(() => {
         setIsSuccess(false);
-      }, 5000);
-    }, 1500);
+      }, 6000);
+    } catch (error) {
+      console.error('Error al enviar el formulario con EmailJS:', error);
+      setErrorMessage(
+        error?.text || 'Ocurrió un error al enviar tu mensaje. Por favor intenta nuevamente o contáctanos por teléfono.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -176,10 +224,27 @@ const Contact = () => {
                   <svg className="w-10 h-10 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
                 </div>
                 <h4 className="text-2xl font-bold mb-2">¡Mensaje enviado con éxito!</h4>
-                <p className="text-gray-400 max-w-sm">Gracias por contactarnos. Nos comunicaremos contigo en menos de 24 horas.</p>
+                <p className="text-gray-400 mb-6 max-w-sm">Gracias por contactarnos. Nuestro equipo revisará tu mensaje y te responderá a la brevedad.</p>
+                <button
+                  type="button"
+                  onClick={() => setIsSuccess(false)}
+                  className="px-6 py-2.5 rounded-xl border border-cyan/40 text-cyan hover:bg-cyan/10 transition-colors text-sm font-medium cursor-pointer"
+                >
+                  Enviar otro mensaje
+                </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
+                {errorMessage && (
+                  <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-200 text-sm flex items-start gap-3">
+                    <svg className="w-5 h-5 text-red-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div className="flex-1 leading-relaxed">
+                      {errorMessage}
+                    </div>
+                  </div>
+                )}
                 <div className="grid md:grid-cols-2 gap-5">
                   <div className="space-y-2">
                     <label htmlFor="nombre" className="text-sm font-medium text-gray-300">Nombre completo *</label>
