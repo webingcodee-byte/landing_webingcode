@@ -1,11 +1,43 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
+import { motion } from 'framer-motion';
 
-// Tokenizer: convierte texto plano en tokens con tipo para colorearlos
+const easeOutExpo = [0.16, 1, 0.3, 1]
+
+const heroStagger = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.1,
+    },
+  },
+}
+
+const heroItem = (y = 30) => ({
+  hidden: { opacity: 0, y, filter: 'blur(6px)' },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 0.55, ease: easeOutExpo },
+  },
+})
+
+const heroTerminal = {
+  hidden: { opacity: 0, x: 50, scale: 0.94, filter: 'blur(8px)' },
+  visible: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+    filter: 'blur(0px)',
+    transition: { duration: 0.65, delay: 0.2, ease: easeOutExpo },
+  },
+}
+
 const tokenize = (code) => {
   const tokens = [];
   let i = 0;
   while (i < code.length) {
-    // Terminal output lines (> ...)
     if ((i === 0 || code[i - 1] === '\n') && code[i] === '>') {
       let end = code.indexOf('\n', i);
       if (end === -1) end = code.length;
@@ -13,7 +45,6 @@ const tokenize = (code) => {
       i = end;
       continue;
     }
-    // Strings
     if (code[i] === '"' || code[i] === "'") {
       const quote = code[i];
       let j = i + 1;
@@ -23,7 +54,6 @@ const tokenize = (code) => {
       i = j;
       continue;
     }
-    // Words (identifiers / keywords)
     if (/[a-zA-ZÁ-ú_$]/.test(code[i])) {
       let j = i;
       while (j < code.length && /[a-zA-ZÁ-ú0-9_$]/.test(code[j])) j++;
@@ -42,14 +72,12 @@ const tokenize = (code) => {
       i = j;
       continue;
     }
-    // Default: single char
     tokens.push({ type: 'plain', value: code[i] });
     i++;
   }
   return tokens;
 };
 
-// Colores para cada tipo de token
 const tokenColors = {
   keyword: { light: '#2563eb', dark: '#60a5fa' },
   string: { light: '#059669', dark: '#34d399' },
@@ -146,22 +174,34 @@ agency.init({
 
   return (
     <section id="hero" className="min-h-screen flex items-center bg-bg-light relative overflow-hidden pt-20">
-      {/* Background decorations */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-br from-cyan/10 to-blue/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-tr from-blue/10 to-light-cyan/10 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4"></div>
 
       <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center relative z-10">
-        <div className="animate-[fade-in-up_1s_ease-out]">
-          <span className="inline-block py-1 px-3 rounded-full bg-cyan/10 text-cyan font-semibold text-sm mb-6 border border-cyan/20">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={heroStagger}
+        >
+          <motion.span
+            variants={heroItem(30)}
+            className="inline-block py-1 px-3 rounded-full bg-cyan/10 text-cyan font-semibold text-sm mb-6 border border-cyan/20"
+          >
             Agencia de Desarrollo Tecnológico
-          </span>
-          <h1 className="text-5xl md:text-6xl font-bold text-navy leading-tight mb-6">
+          </motion.span>
+          <motion.h1
+            variants={heroItem(50)}
+            className="text-5xl md:text-6xl font-bold text-navy leading-tight mb-6"
+          >
             Transformamos tus ideas en <span className="bg-gradient-to-r from-blue to-cyan bg-clip-text text-transparent">soluciones digitales</span>
-          </h1>
-          <p className="text-gray-text text-lg md:text-xl mb-8 leading-relaxed max-w-lg">
+          </motion.h1>
+          <motion.p
+            variants={heroItem(40)}
+            className="text-gray-text text-lg md:text-xl mb-8 leading-relaxed max-w-lg"
+          >
             En WebingCode diseñamos y desarrollamos páginas web, aplicaciones, sistemas de gestión y software a medida que impulsan tu negocio al siguiente nivel.
-          </p>
-          <div className="flex flex-wrap gap-4">
+          </motion.p>
+          <motion.div variants={heroItem(30)} className="flex flex-wrap gap-4">
             <a href="#contacto" className="bg-gradient-to-r from-blue to-cyan text-white px-8 py-3.5 rounded-full font-medium hover:shadow-xl hover:shadow-[#29B6B0]/30 transition-all hover:-translate-y-1 flex items-center gap-2">
               Cotizar proyecto
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
@@ -169,17 +209,18 @@ agency.init({
             <a href="#proyectos" className="bg-card text-navy px-8 py-3.5 rounded-full font-medium border border-navy/20 hover:border-cyan hover:text-cyan transition-colors flex items-center justify-center">
               Ver portafolio
             </a>
-          </div>
+          </motion.div>
+        </motion.div>
 
-
-        </div>
-
-        {/* Creative Code Terminal Animation */}
-        <div className="relative animate-[fade-in_1.5s_ease-out] w-full max-w-lg mx-auto">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={heroTerminal}
+          className="relative w-full max-w-lg mx-auto"
+        >
           <div className="absolute inset-0 bg-gradient-to-tr from-blue/30 to-cyan/30 rounded-2xl blur-xl transform rotate-3 scale-105"></div>
 
           <div className="relative bg-card transition-colors duration-500 rounded-2xl shadow-2xl border border-navy/10 w-full overflow-hidden flex flex-col h-[400px]">
-            {/* Terminal Header */}
             <div className="flex items-center gap-2 px-4 py-3 bg-bg-section transition-colors duration-500 border-b border-navy/10">
               <div className="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]"></div>
               <div className="w-3 h-3 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]"></div>
@@ -187,16 +228,14 @@ agency.init({
               <span className="ml-auto text-gray-text text-xs font-mono tracking-wider">~/webingcode/init.js</span>
             </div>
 
-            {/* Terminal Body */}
             <div className="p-5 font-mono text-sm md:text-base flex-1 overflow-hidden relative">
               <pre className="whitespace-pre-wrap leading-relaxed">
                 <HighlightedCode code={text} />
                 <span className="animate-pulse bg-cyan w-2.5 h-5 inline-block align-middle ml-0.5 shadow-[0_0_8px_#29B6B0]"></span>
               </pre>
-
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

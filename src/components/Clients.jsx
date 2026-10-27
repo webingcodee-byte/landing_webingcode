@@ -1,94 +1,109 @@
+import { motion } from 'framer-motion';
 import client1 from '../assets/clients/client1.jpg';
-// Para agregar más fotos de clientes en el futuro puedes importarlas aquí:
-// import client2 from '../assets/clients/client2.jpg';
 
-// EDITA AQUÍ LA EMPRESA QUE CONFÍA EN TI:
-// Puedes cambiar el nombre o añadir más empresas a esta lista cuando lo requieras.
+const easeOutExpo = [0.16, 1, 0.3, 1];
+
+const headerVariants = {
+  hidden: { opacity: 0, y: 30, filter: 'blur(6px)' },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 0.55, ease: easeOutExpo },
+  },
+};
+
+const logoContainerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const logoItemVariants = {
+  hidden: { opacity: 0, scale: 0.92, y: 20, filter: 'blur(4px)' },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 0.55, ease: easeOutExpo },
+  },
+};
+
 const trustedCompanies = [
   {
     id: 1,
-    name: "Empresa Aliada", // Nombre de la empresa cliente
-  }
-];
-
-// EDITA AQUÍ EL TESTIMONIO DE TU CLIENTE:
-// Modifica los datos con la información y opinión real de tu cliente.
-// Para añadir más testimonios en el futuro, solo agrega otro objeto a este arreglo.
-const testimonials = [
-  {
-    id: 1,
-    name: "Carlos Méndez", // Nombre del cliente
-    role: "CEO", // Cargo o posición
-    company: "ModaPlus", // Empresa del cliente
-    image: client1, // Foto de tu cliente en '../assets/clients/'
-    quote: "WebingCode transformó completamente nuestra presencia digital. El nuevo e-commerce aumentó nuestras ventas en un 45% en los primeros tres meses. Profesionales y altamente recomendables." // Testimonio / reseña
+    name: "Jude Films",
+    logo: client1,
+    category: "Productora Audiovisual",
   }
 ];
 
 const Clients = () => {
   return (
-    <section id="clientes" className="py-24 bg-bg-section">
-      <div className="max-w-7xl mx-auto px-6">
-        
-        {/* Logos Section */}
-        <div className="mb-24">
-          <p className="text-center text-gray-text font-medium mb-10">Empresas que confían en nuestro trabajo</p>
-          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20">
-            {trustedCompanies.map((company) => (
-              <div key={company.id} className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-card shadow-xs border border-gray-100 dark:border-white/5 hover:border-cyan/30 transition-all duration-300 cursor-pointer">
-                <svg className="w-8 h-8 text-cyan" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
-                <span className="text-xl font-bold font-heading text-navy">{company.name}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+    <section id="clientes" className="py-24 bg-bg-section relative overflow-hidden">
+      {/* Background subtle light effects */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-gradient-to-r from-blue/5 via-cyan/5 to-transparent rounded-full blur-3xl pointer-events-none"></div>
 
-        {/* Testimonials Section */}
-        <div>
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-cyan font-semibold uppercase tracking-wider text-sm mb-3">Testimonios</h2>
-            <h3 className="text-3xl md:text-4xl font-bold text-navy mb-4">Lo que dicen nuestros clientes</h3>
-          </div>
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.2, margin: '-20px' }}
+          variants={headerVariants}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
+          <span className="inline-block py-1 px-3 rounded-full bg-cyan/10 text-cyan font-semibold text-xs tracking-wider uppercase mb-3 border border-cyan/20">
+            Confianza y Alianzas
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold font-heading text-navy mb-4">
+            Empresas que confían en nuestro trabajo
+          </h2>
+          <p className="text-gray-text text-lg">
+            Colaboramos estrechamente con marcas y proyectos líderes para construir soluciones digitales de alto impacto.
+          </p>
+        </motion.div>
 
-          <div className={`grid gap-8 ${testimonials.length === 1 ? 'max-w-2xl mx-auto' : 'md:grid-cols-3'}`}>
-            {testimonials.map((testimonial) => (
-              <div key={testimonial.id} className="bg-card rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow relative">
-                {/* Quote icon */}
-                <div className="absolute top-6 right-8 text-bg-section">
-                  <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                  </svg>
-                </div>
-                
-                <div className="flex items-center gap-4 mb-6">
-                  <img 
-                    src={testimonial.image} 
-                    alt={testimonial.name} 
-                    className="w-14 h-14 rounded-full object-cover"
-                  />
-                  <div>
-                    <h4 className="font-bold text-navy">{testimonial.name}</h4>
-                    <p className="text-sm text-gray-text">{testimonial.role} en <span className="text-blue font-medium">{testimonial.company}</span></p>
-                  </div>
-                </div>
-                
-                <div className="flex text-yellow-400 mb-4">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <svg key={star} className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                
-                <p className="text-gray-text italic leading-relaxed">
-                  "{testimonial.quote}"
-                </p>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.1, margin: '-20px' }}
+          variants={logoContainerVariants}
+          className="flex flex-wrap justify-center items-center gap-10 md:gap-16"
+        >
+          {trustedCompanies.map((company) => (
+            <motion.div
+              key={company.id}
+              variants={logoItemVariants}
+              whileHover={{ scale: 1.05, y: -4 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="group relative flex flex-col items-center justify-center p-8 md:p-10 rounded-3xl bg-card border border-gray-100 dark:border-white/5 shadow-md hover:shadow-2xl hover:border-cyan/40 transition-all duration-300 min-w-[240px]"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan/5 to-blue/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+              
+              <img 
+                src={company.logo} 
+                alt={company.name} 
+                className="h-24 md:h-28 w-auto object-contain transition-all duration-300 filter grayscale group-hover:grayscale-0 opacity-85 group-hover:opacity-100 transform group-hover:scale-105"
+              />
+              
+              <div className="mt-4 text-center">
+                <span className="text-sm font-semibold text-navy group-hover:text-cyan transition-colors">
+                  {company.name}
+                </span>
+                {company.category && (
+                  <p className="text-xs text-gray-text mt-0.5">
+                    {company.category}
+                  </p>
+                )}
               </div>
-            ))}
-          </div>
-        </div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
