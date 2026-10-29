@@ -68,11 +68,12 @@ const Contact = () => {
     setIsSubmitting(true);
     setErrorMessage('');
 
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+    // Lee del .env y usa las credenciales como respaldo por si el servidor Vite no se ha reiniciado
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_t9zccfk';
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_wsgjv2c';
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'dAgugy58UpGfzfM1V';
 
-    // Validación preventiva por si no se han cargado las variables en .env
+    // Validación preventiva
     if (!serviceId || !templateId || !publicKey) {
       setErrorMessage(
         'Faltan configurar las credenciales en el archivo .env (VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, VITE_EMAILJS_PUBLIC_KEY).'
